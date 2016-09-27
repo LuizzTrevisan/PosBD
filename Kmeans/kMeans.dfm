@@ -21,19 +21,19 @@ object Form36: TForm36
     Height = 591
     Title.Text.Strings = (
       'TDBChart')
+    Chart3DPercent = 3
     ClipPoints = False
     View3D = False
     View3DOptions.HorizOffset = -234
     View3DOptions.Zoom = 386
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 44
     DefaultCanvas = 'TGDIPlusCanvas'
     PrintMargins = (
       15
-      -39
+      -32
       15
-      -39)
+      -32)
     ColorPaletteIndex = 13
     object Series1: TPointSeries
       DataSource = cdsIris
@@ -54,11 +54,11 @@ object Form36: TForm36
       DataSource = cdsKs
       Title = 'Ks'
       ClickableLine = False
-      Pointer.HorizSize = 20
+      Pointer.HorizSize = 8
       Pointer.InflateMargins = True
       Pointer.Style = psCircle
       Pointer.Transparency = 45
-      Pointer.VertSize = 20
+      Pointer.VertSize = 8
       XValues.Name = 'X'
       XValues.Order = loNone
       XValues.ValueSource = 'x'
@@ -68,7 +68,7 @@ object Form36: TForm36
     end
     object Series4: TPointSeries
       DataSource = cdsGrupo1
-      SeriesColor = 33023
+      SeriesColor = 4227327
       Title = 'grupo1'
       ClickableLine = False
       Pointer.Draw3D = False
@@ -81,22 +81,26 @@ object Form36: TForm36
       YValues.Order = loNone
       YValues.ValueSource = 'sepala'
     end
-    object Series3: TPointSeries
-      Active = False
-      DataSource = Series4
-      SeriesColor = 33023
-      Title = 'centro grupo 1'
+    object Series9: TLineSeries
+      Marks.Callout.Length = 0
+      DataSource = cdsK1
+      SeriesColor = 4227327
+      Title = 'Trajeto K1'
+      Brush.BackColor = clDefault
       ClickableLine = False
       Pointer.HorizSize = 6
       Pointer.InflateMargins = True
       Pointer.Pen.Visible = False
       Pointer.Style = psDonut
       Pointer.VertSize = 6
+      Pointer.Visible = True
       XValues.Name = 'X'
       XValues.Order = loAscending
+      XValues.ValueSource = 'x'
       YValues.Name = 'Y'
       YValues.Order = loNone
-      object TeeFunction1: TAverageTeeFunction
+      YValues.ValueSource = 'y'
+      object TeeFunction4: TAverageTeeFunction
         CalcByValue = False
       end
     end
@@ -115,21 +119,25 @@ object Form36: TForm36
       YValues.Order = loNone
       YValues.ValueSource = 'sepala'
     end
-    object Series7: TPointSeries
-      Active = False
-      DataSource = Series5
+    object Series7: TLineSeries
+      Marks.Callout.Length = 0
+      DataSource = cdsK2
       SeriesColor = 8388672
-      Title = 'centro grupo 2'
+      Title = 'Trajeto K2'
+      Brush.BackColor = clDefault
       ClickableLine = False
       Pointer.HorizSize = 6
       Pointer.InflateMargins = True
       Pointer.Pen.Visible = False
       Pointer.Style = psDonut
       Pointer.VertSize = 6
+      Pointer.Visible = True
       XValues.Name = 'X'
       XValues.Order = loAscending
+      XValues.ValueSource = 'x'
       YValues.Name = 'Y'
       YValues.Order = loNone
+      YValues.ValueSource = 'y'
       object TeeFunction2: TAverageTeeFunction
         CalcByValue = False
       end
@@ -149,21 +157,25 @@ object Form36: TForm36
       YValues.Order = loNone
       YValues.ValueSource = 'sepala'
     end
-    object Series8: TPointSeries
-      Active = False
-      DataSource = Series6
+    object Series8: TLineSeries
+      Marks.Callout.Length = 0
+      DataSource = cdsK3
       SeriesColor = clLime
-      Title = 'centro grupo 3'
+      Title = 'Trajeto K3'
+      Brush.BackColor = clDefault
       ClickableLine = False
       Pointer.HorizSize = 6
       Pointer.InflateMargins = True
       Pointer.Pen.Visible = False
       Pointer.Style = psDonut
       Pointer.VertSize = 6
+      Pointer.Visible = True
       XValues.Name = 'X'
       XValues.Order = loAscending
+      XValues.ValueSource = 'x'
       YValues.Name = 'Y'
       YValues.Order = loNone
+      YValues.ValueSource = 'y'
       object TeeFunction3: TAverageTeeFunction
         CalcByValue = False
       end
@@ -284,6 +296,14 @@ object Form36: TForm36
       item
         Name = 'sepala'
         DataType = ftFloat
+      end
+      item
+        Name = 'centroPetala'
+        DataType = ftFloat
+      end
+      item
+        Name = 'centroSepala'
+        DataType = ftFloat
       end>
     IndexDefs = <>
     Params = <>
@@ -309,6 +329,7 @@ object Form36: TForm36
         Active = True
         AggregateName = 'centroPetala'
         Expression = 'avg(Petala)'
+        Visible = False
       end
       item
         Active = True
@@ -387,13 +408,99 @@ object Form36: TForm36
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Left = 440
-    Top = 456
+    Left = 432
+    Top = 448
     object FloatField5: TFloatField
       FieldName = 'petala'
     end
     object FloatField6: TFloatField
       FieldName = 'sepala'
     end
+  end
+  object cdsK1: TClientDataSet
+    PersistDataPacket.Data = {
+      2E0000009619E0BD0100000018000000020000000000030000002E0001780800
+      040000000000017908000400000000000000}
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'x'
+        DataType = ftFloat
+      end
+      item
+        Name = 'y'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 464
+    Top = 208
+    object FloatField7: TFloatField
+      FieldName = 'x'
+    end
+    object FloatField8: TFloatField
+      FieldName = 'y'
+    end
+  end
+  object cdsK2: TClientDataSet
+    PersistDataPacket.Data = {
+      2E0000009619E0BD0100000018000000020000000000030000002E0001780800
+      040000000000017908000400000000000000}
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'x'
+        DataType = ftFloat
+      end
+      item
+        Name = 'y'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 464
+    Top = 256
+    object FloatField9: TFloatField
+      FieldName = 'x'
+    end
+    object FloatField10: TFloatField
+      FieldName = 'y'
+    end
+  end
+  object cdsK3: TClientDataSet
+    PersistDataPacket.Data = {
+      2E0000009619E0BD0100000018000000020000000000030000002E0001780800
+      040000000000017908000400000000000000}
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'x'
+        DataType = ftFloat
+      end
+      item
+        Name = 'y'
+        DataType = ftFloat
+      end>
+    IndexDefs = <>
+    Params = <>
+    StoreDefs = True
+    Left = 464
+    Top = 304
+    object FloatField11: TFloatField
+      FieldName = 'x'
+    end
+    object FloatField12: TFloatField
+      FieldName = 'y'
+    end
+  end
+  object TeeGDIPlus1: TTeeGDIPlus
+    Active = True
+    AntiAliasText = gpfClearType
+    TeePanel = DBChart1
   end
 end

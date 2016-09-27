@@ -5,7 +5,7 @@ interface
 uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, VclTee.TeEngine,
   VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart, Data.DB, Datasnap.DBClient,
-  VclTee.DBChart, Vcl.StdCtrls, System.Math, VclTee.TeeFunci;
+  VclTee.DBChart, Vcl.StdCtrls, System.Math, VclTee.TeeFunci, VclTee.ArrowCha;
 
 type
   TForm36 = class(TForm)
@@ -14,23 +14,18 @@ type
     cdsIrissepala: TFloatField;
     DBChart1: TDBChart;
     Series1: TPointSeries;
-    Series2: TPointSeries;
     cdsKs: TClientDataSet;
     cdsKsx: TFloatField;
     cdsKsy: TFloatField;
     Panel1: TPanel;
     Button1: TButton;
-    Series3: TPointSeries;
-    TeeFunction1: TAverageTeeFunction;
     cdsGrupo1: TClientDataSet;
     FloatField1: TFloatField;
     FloatField2: TFloatField;
     Series4: TPointSeries;
     Series5: TPointSeries;
     Series6: TPointSeries;
-    Series7: TPointSeries;
     TeeFunction2: TAverageTeeFunction;
-    Series8: TPointSeries;
     TeeFunction3: TAverageTeeFunction;
     cdsGrupo2: TClientDataSet;
     FloatField3: TFloatField;
@@ -39,6 +34,21 @@ type
     FloatField5: TFloatField;
     FloatField6: TFloatField;
     Button2: TButton;
+    cdsK1: TClientDataSet;
+    FloatField7: TFloatField;
+    FloatField8: TFloatField;
+    cdsK2: TClientDataSet;
+    FloatField9: TFloatField;
+    FloatField10: TFloatField;
+    cdsK3: TClientDataSet;
+    FloatField11: TFloatField;
+    FloatField12: TFloatField;
+    Series8: TLineSeries;
+    Series7: TLineSeries;
+    Series2: TPointSeries;
+    Series9: TLineSeries;
+    TeeFunction4: TAverageTeeFunction;
+    TeeGDIPlus1: TTeeGDIPlus;
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -65,6 +75,25 @@ begin
   cdsGrupo1.EmptyDataSet;
   cdsGrupo2.EmptyDataSet;
   cdsGrupo3.EmptyDataSet;
+
+  // sallvar o k antigo
+  cdsKs.First;
+  cdsK1.First;
+  while (cdsK1.RecordCount >= 1) do
+    cdsK1.Delete;
+  cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+  cdsKs.Next;
+  cdsK2.First;
+  while (cdsK2.RecordCount >= 1) do
+    cdsK2.Delete;
+  cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+  cdsKs.Next;
+  cdsK3.First;
+  while (cdsK3.RecordCount >= 1) do
+    cdsK3.Delete;
+  cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
   cdsIris.First;
   while (not cdsIris.eof) do begin
@@ -97,14 +126,22 @@ begin
   cdsKs.Edit;
   cdsKsx.AsFloat := cdsGrupo1.Aggregates[0].Value;
   cdsKsy.AsFloat := cdsGrupo1.Aggregates[1].Value;
+  cdsK1.Last;
+  cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
   cdsKs.Next;
   cdsKs.Edit;
   cdsKsx.AsFloat := cdsGrupo2.Aggregates[0].Value;
   cdsKsy.AsFloat := cdsGrupo2.Aggregates[1].Value;
+  cdsK2.Last;
+  cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
   cdsKs.Next;
   cdsKs.Edit;
   cdsKsx.AsFloat := cdsGrupo3.Aggregates[0].Value;
   cdsKsy.AsFloat := cdsGrupo3.Aggregates[1].Value;
+  cdsK3.Last;
+  cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
   DBChart1.RefreshData;
 
@@ -116,6 +153,10 @@ begin
   cdsGrupo1.EmptyDataSet;
   cdsGrupo2.EmptyDataSet;
   cdsGrupo3.EmptyDataSet;
+
+  cdsK1.EmptyDataSet;
+  cdsK2.EmptyDataSet;
+  cdsK3.EmptyDataSet;
 
   cdsKs.EmptyDataSet;
 
