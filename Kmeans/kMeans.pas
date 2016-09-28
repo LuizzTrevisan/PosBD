@@ -49,11 +49,14 @@ type
     Series9: TLineSeries;
     TeeFunction4: TAverageTeeFunction;
     TeeGDIPlus1: TTeeGDIPlus;
+    Button3: TButton;
+    RadioGroup1: TRadioGroup;
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
-    { Private declarations }
+    { Private declarations } procedure Medoide(X, Y: Real; AFieldX, AFieldY: TField);
   public
     { Public declarations }
   end;
@@ -122,32 +125,12 @@ begin
     cdsIris.Next;
   end;
 
-  cdsKs.First;
-  cdsKs.Edit;
-  cdsKsx.AsFloat := cdsGrupo1.Aggregates[0].Value;
-  cdsKsy.AsFloat := cdsGrupo1.Aggregates[1].Value;
-  cdsK1.Last;
-  cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
-
-  cdsKs.Next;
-  cdsKs.Edit;
-  cdsKsx.AsFloat := cdsGrupo2.Aggregates[0].Value;
-  cdsKsy.AsFloat := cdsGrupo2.Aggregates[1].Value;
-  cdsK2.Last;
-  cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
-
-  cdsKs.Next;
-  cdsKs.Edit;
-  cdsKsx.AsFloat := cdsGrupo3.Aggregates[0].Value;
-  cdsKsy.AsFloat := cdsGrupo3.Aggregates[1].Value;
-  cdsK3.Last;
-  cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
-
   DBChart1.RefreshData;
 
 end;
 
 procedure TForm36.Button2Click(Sender: TObject);
+
 begin
 
   cdsGrupo1.EmptyDataSet;
@@ -166,6 +149,113 @@ begin
     (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
   cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
     (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+
+  /// achar o ponto mais proximo de cada um dos ks e mover o k para la
+  if (RadioGroup1.ItemIndex = 2) then begin
+    cdsKs.First;
+    cdsKs.Edit;
+    Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
+  end;
+
+  DBChart1.RefreshData;
+end;
+
+procedure TForm36.Button3Click(Sender: TObject);
+  procedure Mediana(ACds: TClientDataSet; AFieldX, AFieldY: TField);
+  begin
+    ACds.IndexFieldNames := 'petala';
+
+    ACds.RecNo := ACds.RecordCount div 2;
+    AFieldX.AsFloat := ACds.FieldByName('petala').AsFloat;
+    if (ACds.RecordCount mod 2 = 0) then begin
+      ACds.RecNo := ACds.RecNo + 1;
+      AFieldX.AsFloat := (AFieldX.AsFloat + ACds.FieldByName('petala').AsFloat) / 2;
+    end;
+
+    ACds.IndexFieldNames := 'sepala';
+    ACds.RecNo := ACds.RecordCount div 2;
+    AFieldY.AsFloat := ACds.FieldByName('sepala').AsFloat;
+    if (ACds.RecordCount mod 2 = 0) then begin
+      ACds.RecNo := ACds.RecNo + 1;
+      AFieldY.AsFloat := (AFieldY.AsFloat + ACds.FieldByName('sepala').AsFloat) / 2;
+    end;
+
+  end;
+
+begin
+  // média
+  if (RadioGroup1.ItemIndex = 0) then begin
+
+    cdsKs.First;
+    cdsKs.Edit;
+    cdsKsx.AsFloat := cdsGrupo1.Aggregates[0].Value;
+    cdsKsy.AsFloat := cdsGrupo1.Aggregates[1].Value;
+    cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    cdsKsx.AsFloat := cdsGrupo2.Aggregates[0].Value;
+    cdsKsy.AsFloat := cdsGrupo2.Aggregates[1].Value;
+    cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    cdsKsx.AsFloat := cdsGrupo3.Aggregates[0].Value;
+    cdsKsy.AsFloat := cdsGrupo3.Aggregates[1].Value;
+    cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+  end // mediana
+  else if (RadioGroup1.ItemIndex = 1) then begin
+
+    cdsKs.First;
+    cdsKs.Edit;
+    Mediana(cdsGrupo1, cdsKsx, cdsKsy);
+    cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    Mediana(cdsGrupo2, cdsKsx, cdsKsy);
+    cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    Mediana(cdsGrupo3, cdsKsx, cdsKsy);
+    cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+  end
+  else if (RadioGroup1.ItemIndex = 2) then begin
+    // depois de achar a media, acha o medoide
+
+    cdsKs.First;
+    cdsKs.Edit;
+    cdsKsx.AsFloat := cdsGrupo1.Aggregates[0].Value;
+    cdsKsy.AsFloat := cdsGrupo1.Aggregates[1].Value;
+    Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
+    cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    cdsKsx.AsFloat := cdsGrupo2.Aggregates[0].Value;
+    cdsKsy.AsFloat := cdsGrupo2.Aggregates[1].Value;
+    Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
+    cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsKs.Next;
+    cdsKs.Edit;
+    cdsKsx.AsFloat := cdsGrupo3.Aggregates[0].Value;
+    cdsKsy.AsFloat := cdsGrupo3.Aggregates[1].Value;
+    Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
+    cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+  end;
 
   DBChart1.RefreshData;
 end;
@@ -324,17 +414,32 @@ begin
   cdsIris.AppendRecord([6.2 * 3.4, 5.4 * 2.3]);
   cdsIris.AppendRecord([5.9 * 3.0, 5.1 * 1.8]);
 
-
-
-  // ClientDataSet2.AppendRecord([ (Random(4) + 3)  * (Random(3) + 2), (Random(4) + 5)  * (Random(3) )  ]);
-  // ClientDataSet2.AppendRecord([ (Random(4) + 3)  * (Random(3) + 2), (Random(4) + 5)  * (Random(3) )  ]);
-  // ClientDataSet2.AppendRecord([ (Random(4) + 3)  * (Random(3) + 2), (Random(4) + 5)  * (Random(3) )  ]);
-
-  cdsKs.AppendRecord([14.2123, 5.465489]);
-  cdsKs.AppendRecord([15.78912, 2.123890]);
-  cdsKs.AppendRecord([22.12903, 12.3298]);
+  cdsKs.AppendRecord([12.2123, 4.4649]);
+  cdsKs.AppendRecord([15.7892, 2.1289]);
+  cdsKs.AppendRecord([22.1203, 12.3298]);
 
   DBChart1.RefreshData;
+end;
+
+procedure TForm36.Medoide(X, Y: Real; AFieldX, AFieldY: TField);
+var
+  vDistanciaMenor: Real;
+  vDistancia: Real;
+begin
+  cdsIris.First;
+  vDistanciaMenor := 9999999;
+
+  while (not cdsIris.eof) do begin
+    vDistancia := abs(cdsIrispetala.AsFloat - X) + abs(cdsIrissepala.AsFloat - Y);
+
+    if (vDistancia < vDistanciaMenor) then begin
+      vDistanciaMenor := vDistancia;
+      AFieldX.AsFloat := cdsIrispetala.AsFloat;
+      AFieldY.AsFloat := cdsIrissepala.AsFloat;
+    end;
+
+    cdsIris.Next;
+  end;
 end;
 
 end.

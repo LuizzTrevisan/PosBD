@@ -19,8 +19,12 @@ object Form36: TForm36
     Top = 49
     Width = 1041
     Height = 591
+    Title.Font.Color = clBlack
+    Title.Font.Height = -13
+    Title.Font.Name = '@Yu Gothic UI Semibold'
+    Title.Font.Style = [fsBold]
     Title.Text.Strings = (
-      'TDBChart')
+      'Iris Data 2D')
     Chart3DPercent = 3
     ClipPoints = False
     View3D = False
@@ -187,25 +191,50 @@ object Form36: TForm36
     Width = 1041
     Height = 49
     Align = alTop
-    Caption = 'Panel1'
     TabOrder = 1
+    ExplicitTop = -6
     object Button1: TButton
-      Left = 168
-      Top = 10
+      Left = 368
+      Top = 12
       Width = 129
-      Height = 25
-      Caption = 'Proxima Intera'#231#227'o'
+      Height = 29
+      Caption = 'Agrupar Pr'#243'ximos'
       TabOrder = 0
       OnClick = Button1Click
     end
     object Button2: TButton
-      Left = 8
-      Top = 10
+      Left = 216
+      Top = 12
       Width = 129
-      Height = 25
+      Height = 29
       Caption = 'Random Inicio'
       TabOrder = 1
       OnClick = Button2Click
+    end
+    object Button3: TButton
+      Left = 503
+      Top = 12
+      Width = 129
+      Height = 29
+      Caption = 'Atualizar Centros Ks'
+      TabOrder = 2
+      OnClick = Button3Click
+    end
+    object RadioGroup1: TRadioGroup
+      Left = 1
+      Top = 1
+      Width = 209
+      Height = 47
+      Align = alLeft
+      Caption = 'RadioGroup1'
+      Columns = 3
+      ItemIndex = 1
+      Items.Strings = (
+        'M'#233'dia'
+        'Mediana'
+        'Met'#243'ide')
+      TabOrder = 3
+      ExplicitTop = -4
     end
   end
   object cdsIris: TClientDataSet
@@ -502,5 +531,7 @@ object Form36: TForm36
     Active = True
     AntiAliasText = gpfClearType
     TeePanel = DBChart1
+    Left = 992
+    Top = 72
   end
 end
