@@ -17,27 +17,30 @@ object Form36: TForm36
   object DBChart1: TDBChart
     Left = 0
     Top = 49
-    Width = 1041
-    Height = 591
-    Title.Font.Color = clBlack
+    Width = 569
+    Height = 583
+    Title.Color = clNavy
+    Title.Font.Color = clNavy
     Title.Font.Height = -13
-    Title.Font.Name = '@Yu Gothic UI Semibold'
     Title.Font.Style = [fsBold]
     Title.Text.Strings = (
-      'Iris Data 2D')
+      '<i>Iris Data</i>')
+    Title.TextFormat = ttfHtml
+    BottomAxis.Title.Caption = 'P'#233'tala ( Largura * Altura )'
     Chart3DPercent = 3
     ClipPoints = False
+    LeftAxis.Title.Caption = 'S'#233'pala ( Largura * Altura )'
+    Legend.Visible = False
     View3D = False
     View3DOptions.HorizOffset = -234
     View3DOptions.Zoom = 386
-    Align = alClient
     TabOrder = 0
     DefaultCanvas = 'TGDIPlusCanvas'
     PrintMargins = (
+      42
       15
-      -32
-      15
-      -32)
+      42
+      15)
     ColorPaletteIndex = 13
     object Series1: TPointSeries
       DataSource = cdsIris
@@ -192,7 +195,6 @@ object Form36: TForm36
     Height = 49
     Align = alTop
     TabOrder = 1
-    ExplicitTop = -6
     object Button1: TButton
       Left = 368
       Top = 12
@@ -234,7 +236,15 @@ object Form36: TForm36
         'Mediana'
         'Met'#243'ide')
       TabOrder = 3
-      ExplicitTop = -4
+    end
+    object Button4: TButton
+      Left = 688
+      Top = 13
+      Width = 75
+      Height = 25
+      Caption = 'Button4'
+      TabOrder = 4
+      OnClick = Button4Click
     end
   end
   object cdsIris: TClientDataSet
@@ -529,7 +539,7 @@ object Form36: TForm36
   end
   object TeeGDIPlus1: TTeeGDIPlus
     Active = True
-    AntiAliasText = gpfClearType
+    AntiAliasText = gpfBest
     TeePanel = DBChart1
     Left = 992
     Top = 72

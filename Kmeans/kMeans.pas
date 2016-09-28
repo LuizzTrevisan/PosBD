@@ -51,10 +51,12 @@ type
     TeeGDIPlus1: TTeeGDIPlus;
     Button3: TButton;
     RadioGroup1: TRadioGroup;
+    Button4: TButton;
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private declarations } procedure Medoide(X, Y: Real; AFieldX, AFieldY: TField);
   public
@@ -143,12 +145,17 @@ begin
 
   cdsKs.EmptyDataSet;
 
-  cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
-    (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
-  cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
-    (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
-  cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
-    (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+  cdsKs.AppendRecord([12.2123, 4.4649]);
+  cdsKs.AppendRecord([15.7892, 2.1289]);
+  cdsKs.AppendRecord([22.1203, 12.3298]);
+
+
+  // cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
+  // (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+  // cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
+  // (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+  // cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
+  // (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
 
   /// achar o ponto mais proximo de cada um dos ks e mover o k para la
   if (RadioGroup1.ItemIndex = 2) then begin
@@ -258,6 +265,11 @@ begin
   end;
 
   DBChart1.RefreshData;
+end;
+
+procedure TForm36.Button4Click(Sender: TObject);
+begin
+  DBChart1.SaveToBitmapFile('D:\Luiz Pos\PosBD\t.jpeg');
 end;
 
 procedure TForm36.FormShow(Sender: TObject);
@@ -414,9 +426,9 @@ begin
   cdsIris.AppendRecord([6.2 * 3.4, 5.4 * 2.3]);
   cdsIris.AppendRecord([5.9 * 3.0, 5.1 * 1.8]);
 
-  cdsKs.AppendRecord([12.2123, 4.4649]);
-  cdsKs.AppendRecord([15.7892, 2.1289]);
-  cdsKs.AppendRecord([22.1203, 12.3298]);
+  // cdsKs.AppendRecord([12.2123, 4.4649]);
+  // cdsKs.AppendRecord([15.7892, 2.1289]);
+  // cdsKs.AppendRecord([22.1203, 12.3298]);
 
   DBChart1.RefreshData;
 end;
