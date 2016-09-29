@@ -5,7 +5,7 @@ interface
 uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, VclTee.TeEngine,
   VclTee.Series, Vcl.ExtCtrls, VclTee.TeeProcs, VclTee.Chart, Data.DB, Datasnap.DBClient,
-  VclTee.DBChart, Vcl.StdCtrls, System.Math, VclTee.TeeFunci, VclTee.ArrowCha;
+  VclTee.DBChart, Vcl.StdCtrls, System.Math, VclTee.TeeFunci, VclTee.ArrowCha, VclTee.GanttCh;
 
 type
   TForm36 = class(TForm)
@@ -45,13 +45,15 @@ type
     FloatField12: TFloatField;
     Series8: TLineSeries;
     Series7: TLineSeries;
-    Series2: TPointSeries;
     Series9: TLineSeries;
     TeeFunction4: TAverageTeeFunction;
     TeeGDIPlus1: TTeeGDIPlus;
     Button3: TButton;
     RadioGroup1: TRadioGroup;
     Button4: TButton;
+    CheckBox1: TCheckBox;
+    Series2: TPointSeries;
+    CheckBox2: TCheckBox;
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -143,19 +145,28 @@ begin
   cdsK2.EmptyDataSet;
   cdsK3.EmptyDataSet;
 
-  cdsKs.EmptyDataSet;
+  if (not CheckBox2.Checked) then begin
+    cdsKs.EmptyDataSet;
 
-  cdsKs.AppendRecord([12.2123, 4.4649]);
-  cdsKs.AppendRecord([15.7892, 2.1289]);
-  cdsKs.AppendRecord([22.1203, 12.3298]);
+  end;
 
-
-  // cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
-  // (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
-  // cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
-  // (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
-  // cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
-  // (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+  if (CheckBox1.Checked) then begin
+    cdsKs.AppendRecord([12.2123, 4.4649]);
+    cdsKs.AppendRecord([15.7892, 2.1289]);
+    cdsKs.AppendRecord([22.1203, 12.3298]);
+  end else begin
+    if (not CheckBox2.Checked) or cdsKs.IsEmpty then begin
+      cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
+        (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+      cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
+        (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+      cdsKs.AppendRecord([(RandomRange(430, 790) / 100) * (RandomRange(200, 440) / 100),
+        (RandomRange(100, 690) / 100) * (RandomRange(10, 250) / 100)]);
+      cdsKs.SaveToFile(ExtractFilePath(ParamStr(0)) + 'x');
+    end else begin
+      cdsKs.LoadFromFile(ExtractFilePath(ParamStr(0)) + 'x');
+    end;
+  end;
 
   /// achar o ponto mais proximo de cada um dos ks e mover o k para la
   if (RadioGroup1.ItemIndex = 2) then begin
@@ -180,19 +191,26 @@ procedure TForm36.Button3Click(Sender: TObject);
   begin
     ACds.IndexFieldNames := 'petala';
 
-    ACds.RecNo := ACds.RecordCount div 2;
-    AFieldX.AsFloat := ACds.FieldByName('petala').AsFloat;
     if (ACds.RecordCount mod 2 = 0) then begin
+      ACds.RecNo := ACds.RecordCount div 2;
+      AFieldX.AsFloat := ACds.FieldByName('petala').AsFloat;
       ACds.RecNo := ACds.RecNo + 1;
       AFieldX.AsFloat := (AFieldX.AsFloat + ACds.FieldByName('petala').AsFloat) / 2;
+    end else begin
+      ACds.RecNo := (ACds.RecordCount div 2) + 1;
+      AFieldX.AsFloat := ACds.FieldByName('petala').AsFloat;
     end;
 
     ACds.IndexFieldNames := 'sepala';
-    ACds.RecNo := ACds.RecordCount div 2;
-    AFieldY.AsFloat := ACds.FieldByName('sepala').AsFloat;
     if (ACds.RecordCount mod 2 = 0) then begin
+      ACds.RecNo := ACds.RecordCount div 2;
+      AFieldY.AsFloat := ACds.FieldByName('sepala').AsFloat;
+
       ACds.RecNo := ACds.RecNo + 1;
       AFieldY.AsFloat := (AFieldY.AsFloat + ACds.FieldByName('sepala').AsFloat) / 2;
+    end else begin
+      ACds.RecNo := (ACds.RecordCount div 2) + 1;
+      AFieldY.AsFloat := ACds.FieldByName('sepala').AsFloat;
     end;
 
   end;
@@ -269,7 +287,7 @@ end;
 
 procedure TForm36.Button4Click(Sender: TObject);
 begin
-  DBChart1.SaveToBitmapFile('D:\Luiz Pos\PosBD\t.jpeg');
+  DBChart1.SaveToBitmapFile(ExtractFilePath(ParamStr(0)) + 'export.bmp');
 end;
 
 procedure TForm36.FormShow(Sender: TObject);

@@ -2,6 +2,7 @@ program PosKMeans;
 
 uses
   Vcl.Forms,
+  MidasLib,
   kMeans in 'kMeans.pas' {Form36};
 
 {$R *.res}

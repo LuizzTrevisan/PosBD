@@ -2,7 +2,7 @@ object Form36: TForm36
   Left = 0
   Top = 0
   Caption = 'Form36'
-  ClientHeight = 640
+  ClientHeight = 879
   ClientWidth = 1041
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -15,10 +15,11 @@ object Form36: TForm36
   PixelsPerInch = 96
   TextHeight = 13
   object DBChart1: TDBChart
-    Left = 0
-    Top = 49
-    Width = 569
-    Height = 583
+    Left = 16
+    Top = 55
+    Width = 577
+    Height = 786
+    BackWall.Color = 15921906
     Title.Color = clNavy
     Title.Font.Color = clNavy
     Title.Font.Height = -13
@@ -26,29 +27,40 @@ object Form36: TForm36
     Title.Text.Strings = (
       '<i>Iris Data</i>')
     Title.TextFormat = ttfHtml
+    Title.Visible = False
     BottomAxis.Title.Caption = 'P'#233'tala ( Largura * Altura )'
+    BottomAxis.Title.Visible = False
     Chart3DPercent = 3
     ClipPoints = False
     LeftAxis.Title.Caption = 'S'#233'pala ( Largura * Altura )'
+    LeftAxis.Title.Visible = False
     Legend.Visible = False
     View3D = False
-    View3DOptions.HorizOffset = -234
-    View3DOptions.Zoom = 386
+    View3DOptions.Elevation = 20
+    View3DOptions.Perspective = 2
+    View3DWalls = False
+    Color = 16514043
     TabOrder = 0
     DefaultCanvas = 'TGDIPlusCanvas'
     PrintMargins = (
-      42
+      41
       15
-      42
+      41
       15)
-    ColorPaletteIndex = 13
+    ColorPaletteIndex = 16
     object Series1: TPointSeries
+      Marks.Frame.Visible = False
+      Marks.Style = smsXY
+      Marks.Callout.Length = 20
       DataSource = cdsIris
+      SeriesColor = clSilver
       Title = 'iris data'
       ClickableLine = False
       Pointer.Draw3D = False
+      Pointer.HorizSize = 5
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
+      Pointer.VertSize = 5
       XValues.Name = 'X'
       XValues.Order = loAscending
       XValues.ValueSource = 'petala'
@@ -61,10 +73,14 @@ object Form36: TForm36
       DataSource = cdsKs
       Title = 'Ks'
       ClickableLine = False
+      Pointer.Draw3D = False
+      Pointer.Emboss.Color = 6513507
+      Pointer.Emboss.Smooth = False
+      Pointer.Emboss.Transparency = 100
       Pointer.HorizSize = 8
       Pointer.InflateMargins = True
+      Pointer.Shadow.Color = clWhite
       Pointer.Style = psCircle
-      Pointer.Transparency = 45
       Pointer.VertSize = 8
       XValues.Name = 'X'
       XValues.Order = loNone
@@ -75,12 +91,14 @@ object Form36: TForm36
     end
     object Series4: TPointSeries
       DataSource = cdsGrupo1
-      SeriesColor = 4227327
+      SeriesColor = 33023
       Title = 'grupo1'
       ClickableLine = False
       Pointer.Draw3D = False
+      Pointer.HorizSize = 5
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
+      Pointer.VertSize = 5
       XValues.Name = 'X'
       XValues.Order = loAscending
       XValues.ValueSource = 'petala'
@@ -91,15 +109,15 @@ object Form36: TForm36
     object Series9: TLineSeries
       Marks.Callout.Length = 0
       DataSource = cdsK1
-      SeriesColor = 4227327
+      SeriesColor = 33023
       Title = 'Trajeto K1'
       Brush.BackColor = clDefault
       ClickableLine = False
-      Pointer.HorizSize = 6
+      Pointer.HorizSize = 7
       Pointer.InflateMargins = True
       Pointer.Pen.Visible = False
       Pointer.Style = psDonut
-      Pointer.VertSize = 6
+      Pointer.VertSize = 7
       Pointer.Visible = True
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -113,12 +131,14 @@ object Form36: TForm36
     end
     object Series5: TPointSeries
       DataSource = cdsGrupo2
-      SeriesColor = 8388672
+      SeriesColor = 16744576
       Title = 'grupo2'
       ClickableLine = False
       Pointer.Draw3D = False
+      Pointer.HorizSize = 5
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
+      Pointer.VertSize = 5
       XValues.Name = 'X'
       XValues.Order = loAscending
       XValues.ValueSource = 'petala'
@@ -129,15 +149,15 @@ object Form36: TForm36
     object Series7: TLineSeries
       Marks.Callout.Length = 0
       DataSource = cdsK2
-      SeriesColor = 8388672
+      SeriesColor = 16744576
       Title = 'Trajeto K2'
       Brush.BackColor = clDefault
       ClickableLine = False
-      Pointer.HorizSize = 6
+      Pointer.HorizSize = 7
       Pointer.InflateMargins = True
       Pointer.Pen.Visible = False
       Pointer.Style = psDonut
-      Pointer.VertSize = 6
+      Pointer.VertSize = 7
       Pointer.Visible = True
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -151,12 +171,14 @@ object Form36: TForm36
     end
     object Series6: TPointSeries
       DataSource = cdsGrupo3
-      SeriesColor = clLime
+      SeriesColor = 8453888
       Title = 'grupo3'
       ClickableLine = False
       Pointer.Draw3D = False
+      Pointer.HorizSize = 5
       Pointer.InflateMargins = True
       Pointer.Style = psRectangle
+      Pointer.VertSize = 5
       XValues.Name = 'X'
       XValues.Order = loAscending
       XValues.ValueSource = 'petala'
@@ -167,15 +189,15 @@ object Form36: TForm36
     object Series8: TLineSeries
       Marks.Callout.Length = 0
       DataSource = cdsK3
-      SeriesColor = clLime
+      SeriesColor = 8453888
       Title = 'Trajeto K3'
       Brush.BackColor = clDefault
       ClickableLine = False
-      Pointer.HorizSize = 6
+      Pointer.HorizSize = 7
       Pointer.InflateMargins = True
       Pointer.Pen.Visible = False
       Pointer.Style = psDonut
-      Pointer.VertSize = 6
+      Pointer.VertSize = 7
       Pointer.Visible = True
       XValues.Name = 'X'
       XValues.Order = loAscending
@@ -206,7 +228,7 @@ object Form36: TForm36
     end
     object Button2: TButton
       Left = 216
-      Top = 12
+      Top = 3
       Width = 129
       Height = 29
       Caption = 'Random Inicio'
@@ -246,6 +268,24 @@ object Form36: TForm36
       TabOrder = 4
       OnClick = Button4Click
     end
+    object CheckBox1: TCheckBox
+      Left = 216
+      Top = 32
+      Width = 105
+      Height = 13
+      Caption = 'Pre Determinado'
+      TabOrder = 5
+    end
+    object CheckBox2: TCheckBox
+      Left = 368
+      Top = 1
+      Width = 105
+      Height = 13
+      Caption = ' nao zerar'
+      Checked = True
+      State = cbChecked
+      TabOrder = 6
+    end
   end
   object cdsIris: TClientDataSet
     PersistDataPacket.Data = {
@@ -270,8 +310,8 @@ object Form36: TForm36
     IndexDefs = <>
     Params = <>
     StoreDefs = True
-    Left = 224
-    Top = 224
+    Left = 227
+    Top = 216
     object cdsIrispetala: TFloatField
       FieldName = 'petala'
     end
