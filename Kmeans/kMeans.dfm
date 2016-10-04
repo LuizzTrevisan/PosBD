@@ -2,8 +2,8 @@ object Form36: TForm36
   Left = 0
   Top = 0
   Caption = 'Form36'
-  ClientHeight = 879
-  ClientWidth = 1041
+  ClientHeight = 873
+  ClientWidth = 1307
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -213,10 +213,11 @@ object Form36: TForm36
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1041
+    Width = 1307
     Height = 49
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 1146
     object Button1: TButton
       Left = 368
       Top = 12
@@ -286,6 +287,24 @@ object Form36: TForm36
       State = cbChecked
       TabOrder = 6
     end
+  end
+  object Memo1: TMemo
+    Left = 599
+    Top = 78
+    Width = 700
+    Height = 761
+    Lines.Strings = (
+      'Memo1')
+    ScrollBars = ssVertical
+    TabOrder = 2
+  end
+  object Edit1: TEdit
+    Left = 599
+    Top = 55
+    Width = 700
+    Height = 21
+    TabOrder = 3
+    Text = 'Edit1'
   end
   object cdsIris: TClientDataSet
     PersistDataPacket.Data = {

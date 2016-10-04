@@ -54,6 +54,8 @@ type
     CheckBox1: TCheckBox;
     Series2: TPointSeries;
     CheckBox2: TCheckBox;
+    Memo1: TMemo;
+    Edit1: TEdit;
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
@@ -77,11 +79,15 @@ var
   vGrupoDistanciaMenor: Integer;
   vDistancia: Real;
   vDistanciaMenor: Real;
+
+  vlinha: string;
 begin
 
   cdsGrupo1.EmptyDataSet;
   cdsGrupo2.EmptyDataSet;
   cdsGrupo3.EmptyDataSet;
+
+  Memo1.Lines.BeginUpdate;
 
   // sallvar o k antigo
   cdsKs.First;
@@ -102,22 +108,36 @@ begin
     cdsK3.Delete;
   cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
+  Memo1.Text := 'X' + chr(9) + 'Y' + chr(9) + 'Dx + Dy ' + chr(9) + chr(9) + chr(9) + ' Distancia 1'
+    + chr(9) + ' Distancia 2 ' + chr(9) + 'Distancia 3 ' + chr(9) + 'Grupo Menor' + sLineBreak;
   cdsIris.First;
   while (not cdsIris.eof) do begin
     cdsKs.First;
     vDistanciaMenor := 9999999;
+
+    vlinha := cdsIrispetala.AsFloat.ToString(ffnumber, 4, 4) + chr(9) +
+      cdsIrissepala.AsFloat.ToString(ffnumber, 4, 4) + chr(9);
+
+    vlinha := vlinha + abs(cdsIrispetala.AsFloat - cdsKsx.AsFloat).ToString(ffnumber, 4, 4) + ' + '
+      + abs(cdsIrissepala.AsFloat - cdsKsy.AsFloat).ToString(ffnumber, 4, 4);
+
     while (not cdsKs.eof) do begin
 
       vDistancia := abs(cdsIrispetala.AsFloat - cdsKsx.AsFloat) +
         abs(cdsIrissepala.AsFloat - cdsKsy.AsFloat);
 
+      vlinha := vlinha + chr(9) + chr(9) + FloatToStrF(vDistancia, ffnumber, 4, 4);
       if (vDistancia < vDistanciaMenor) then begin
         vDistanciaMenor := vDistancia;
         vGrupoDistanciaMenor := cdsKs.RecNo;
       end;
-
       cdsKs.Next;
     end;
+
+    vlinha := vlinha + chr(9) + chr(9) + IntToStr(vGrupoDistanciaMenor) + sLineBreak;
+
+    if (cdsIris.RecNo in [12, 27, 36, 95, 103, 134, 142]) then
+      Memo1.Lines.Add(vlinha);
 
     if (vGrupoDistanciaMenor = 1) then
       cdsGrupo1.AppendRecord([cdsIrispetala.AsFloat, cdsIrissepala.AsFloat])
@@ -130,6 +150,7 @@ begin
   end;
 
   DBChart1.RefreshData;
+  Memo1.Lines.EndUpdate;
 
 end;
 
@@ -145,9 +166,11 @@ begin
   cdsK2.EmptyDataSet;
   cdsK3.EmptyDataSet;
 
+  if (FileExists(ExtractFilePath(ParamStr(0)) + 'x')) then
+    cdsKs.LoadFromFile(ExtractFilePath(ParamStr(0)) + 'x');
+
   if (not CheckBox2.Checked) then begin
     cdsKs.EmptyDataSet;
-
   end;
 
   if (CheckBox1.Checked) then begin
@@ -182,6 +205,16 @@ begin
     cdsKs.Edit;
     Medoide(cdsKsx.AsFloat, cdsKsy.AsFloat, cdsKsx, cdsKsy);
   end;
+
+  cdsKs.First;
+  Edit1.Text := 'K1:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  cdsKs.Next;
+  Edit1.Text := Edit1.Text + '     K2:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  cdsKs.Next;
+  Edit1.Text := Edit1.Text + '     K3:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
 
   DBChart1.RefreshData;
 end;
@@ -281,6 +314,16 @@ begin
     cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
   end;
+
+  cdsKs.First;
+  Edit1.Text := 'K1:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  cdsKs.Next;
+  Edit1.Text := Edit1.Text + '     K2:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  cdsKs.Next;
+  Edit1.Text := Edit1.Text + '     K3:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
 
   DBChart1.RefreshData;
 end;
