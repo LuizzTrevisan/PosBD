@@ -108,25 +108,33 @@ begin
     cdsK3.Delete;
   cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
-  Memo1.Text := 'X' + chr(9) + 'Y' + chr(9) + 'Dx + Dy ' + chr(9) + chr(9) + chr(9) + ' Distancia 1'
-    + chr(9) + ' Distancia 2 ' + chr(9) + 'Distancia 3 ' + chr(9) + 'Grupo Menor' + sLineBreak;
+  Memo1.Text := 'X' + chr(9) + 'Y' + chr(9) + //
+    'Distancia k1' + chr(9) + chr(9) + chr(9) + chr(9) + chr(9) + //
+    'Distancia k2 ' + chr(9) + chr(9) + chr(9) + chr(9) + chr(9) + //
+    'Distancia k3 ' + chr(9) + chr(9) + chr(9) + chr(9) + chr(9) + //
+    'M' + sLineBreak;
   cdsIris.First;
   while (not cdsIris.eof) do begin
     cdsKs.First;
     vDistanciaMenor := 9999999;
 
-    vlinha := cdsIrispetala.AsFloat.ToString(ffnumber, 4, 4) + chr(9) +
-      cdsIrissepala.AsFloat.ToString(ffnumber, 4, 4) + chr(9);
-
-    vlinha := vlinha + abs(cdsIrispetala.AsFloat - cdsKsx.AsFloat).ToString(ffnumber, 4, 4) + ' + '
-      + abs(cdsIrissepala.AsFloat - cdsKsy.AsFloat).ToString(ffnumber, 4, 4);
+    vlinha := FormatFloat('0.000,', cdsIrispetala.AsFloat) + chr(9) +
+      FormatFloat('0.000,', cdsIrissepala.AsFloat);
 
     while (not cdsKs.eof) do begin
+      vlinha := vlinha + chr(9) + 'sqrt((' + //
+        FormatFloat('0.000,', cdsIrispetala.AsFloat) + '-' + //
+        FormatFloat('0.000,', cdsKsx.AsFloat) + ')^2' + //
 
-      vDistancia := abs(cdsIrispetala.AsFloat - cdsKsx.AsFloat) +
-        abs(cdsIrissepala.AsFloat - cdsKsy.AsFloat);
+        ' + (' + //
 
-      vlinha := vlinha + chr(9) + chr(9) + FloatToStrF(vDistancia, ffnumber, 4, 4);
+        FormatFloat('0.000,', cdsIrissepala.AsFloat) + '-' + //
+        FormatFloat('0.000,', cdsKsy.AsFloat) + ')^2 )';
+
+      vDistancia := Sqrt(Power(cdsIrispetala.AsFloat - cdsKsx.AsFloat, 2) +
+        Power(cdsIrissepala.AsFloat - cdsKsy.AsFloat, 2));
+
+      vlinha := vlinha + chr(9) + FloatToStrF(vDistancia, ffnumber, 4, 3);
       if (vDistancia < vDistanciaMenor) then begin
         vDistanciaMenor := vDistancia;
         vGrupoDistanciaMenor := cdsKs.RecNo;
@@ -134,10 +142,10 @@ begin
       cdsKs.Next;
     end;
 
-    vlinha := vlinha + chr(9) + chr(9) + IntToStr(vGrupoDistanciaMenor) + sLineBreak;
+    vlinha := vlinha + chr(9) + IntToStr(vGrupoDistanciaMenor);
 
-    if (cdsIris.RecNo in [12, 27, 36, 95, 103, 134, 142]) then
-      Memo1.Lines.Add(vlinha);
+    // if (cdsIris.RecNo in [12, 27, 36, 95, 103, 134, 142]) then
+    Memo1.Lines.Add(vlinha);
 
     if (vGrupoDistanciaMenor = 1) then
       cdsGrupo1.AppendRecord([cdsIrispetala.AsFloat, cdsIrissepala.AsFloat])
@@ -207,14 +215,14 @@ begin
   end;
 
   cdsKs.First;
-  Edit1.Text := 'K1:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
-    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  Edit1.Text := 'K1:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 3) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 3);
   cdsKs.Next;
-  Edit1.Text := Edit1.Text + '     K2:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
-    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  Edit1.Text := Edit1.Text + '     K2:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 3) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 3);
   cdsKs.Next;
-  Edit1.Text := Edit1.Text + '     K3:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
-    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  Edit1.Text := Edit1.Text + '     K3:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 3) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 3);
 
   DBChart1.RefreshData;
 end;
@@ -258,17 +266,61 @@ begin
     cdsKsy.AsFloat := cdsGrupo1.Aggregates[1].Value;
     cdsK1.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
+    FormatSettings.DecimalSeparator := '.';
+
+    cdsGrupo1.First;
+    Memo1.Lines.BeginUpdate;
+    Memo1.Lines.Add('');
+    Memo1.Lines.Add('');
+    Memo1.Lines.Add('k1 avg(');
+    while not cdsGrupo1.eof do begin
+      Memo1.Lines[Memo1.Lines.Count - 1] := Memo1.Lines[Memo1.Lines.Count - 1] + ' (' +
+        FormatFloat('0.000,', cdsGrupo1.Fields[0].AsFloat) + ',' +
+        FormatFloat('0.000,', cdsGrupo1.Fields[1].AsFloat) + ') , ';
+      cdsGrupo1.Next;
+    end;
+    Memo1.Lines[Memo1.Lines.Count - 1] := Memo1.Lines[Memo1.Lines.Count - 1] + ')';
+    Memo1.Lines.EndUpdate;
+
     cdsKs.Next;
     cdsKs.Edit;
     cdsKsx.AsFloat := cdsGrupo2.Aggregates[0].Value;
     cdsKsy.AsFloat := cdsGrupo2.Aggregates[1].Value;
     cdsK2.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
 
+    cdsGrupo2.First;
+    Memo1.Lines.BeginUpdate;
+    Memo1.Lines.Add('');
+    Memo1.Lines.Add('');
+    Memo1.Lines.Add('k2 avg(');
+    while not cdsGrupo2.eof do begin
+      Memo1.Lines[Memo1.Lines.Count - 1] := Memo1.Lines[Memo1.Lines.Count - 1] + ' (' +
+        FormatFloat('0.000,', cdsGrupo2.Fields[0].AsFloat) + ',' +
+        FormatFloat('0.000,', cdsGrupo2.Fields[1].AsFloat) + ') , ';
+      cdsGrupo2.Next;
+    end;
+    Memo1.Lines[Memo1.Lines.Count - 1] := Memo1.Lines[Memo1.Lines.Count - 1] + ')';
+    Memo1.Lines.EndUpdate;
+
     cdsKs.Next;
     cdsKs.Edit;
     cdsKsx.AsFloat := cdsGrupo3.Aggregates[0].Value;
     cdsKsy.AsFloat := cdsGrupo3.Aggregates[1].Value;
     cdsK3.AppendRecord([cdsKsx.AsFloat, cdsKsy.AsFloat]);
+
+    cdsGrupo3.First;
+    Memo1.Lines.BeginUpdate;
+    Memo1.Lines.Add('');
+    Memo1.Lines.Add('');
+    Memo1.Lines.Add('k3 avg(');
+    while not cdsGrupo3.eof do begin
+      Memo1.Lines[Memo1.Lines.Count - 1] := Memo1.Lines[Memo1.Lines.Count - 1] + ' (' +
+        FormatFloat('0.000,', cdsGrupo3.Fields[0].AsFloat) + ',' +
+        FormatFloat('0.000,', cdsGrupo3.Fields[1].AsFloat) + ') , ';
+      cdsGrupo3.Next;
+    end;
+    Memo1.Lines[Memo1.Lines.Count - 1] := Memo1.Lines[Memo1.Lines.Count - 1] + ')';
+    Memo1.Lines.EndUpdate;
 
   end // mediana
   else if (RadioGroup1.ItemIndex = 1) then begin
@@ -316,14 +368,14 @@ begin
   end;
 
   cdsKs.First;
-  Edit1.Text := 'K1:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
-    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  Edit1.Text := 'K1:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 3) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 3);
   cdsKs.Next;
-  Edit1.Text := Edit1.Text + '     K2:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
-    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  Edit1.Text := Edit1.Text + '     K2:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 3) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 3);
   cdsKs.Next;
-  Edit1.Text := Edit1.Text + '     K3:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 4) + ' ' +
-    cdsKsy.AsFloat.ToString(ffnumber, 4, 4);
+  Edit1.Text := Edit1.Text + '     K3:' + cdsKsx.AsFloat.ToString(ffnumber, 4, 3) + ' ' +
+    cdsKsy.AsFloat.ToString(ffnumber, 4, 3);
 
   DBChart1.RefreshData;
 end;

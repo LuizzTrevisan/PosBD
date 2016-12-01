@@ -3,7 +3,7 @@ object Form36: TForm36
   Top = 0
   Caption = 'Form36'
   ClientHeight = 873
-  ClientWidth = 1307
+  ClientWidth = 1417
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,6 +12,9 @@ object Form36: TForm36
   Font.Style = []
   OldCreateOrder = False
   OnShow = FormShow
+  DesignSize = (
+    1417
+    873)
   PixelsPerInch = 96
   TextHeight = 13
   object DBChart1: TDBChart
@@ -213,11 +216,11 @@ object Form36: TForm36
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1307
+    Width = 1417
     Height = 49
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 1146
+    ExplicitWidth = 1444
     object Button1: TButton
       Left = 368
       Top = 12
@@ -290,11 +293,18 @@ object Form36: TForm36
   end
   object Memo1: TMemo
     Left = 599
-    Top = 78
-    Width = 700
+    Top = 80
+    Width = 816
     Height = 761
+    Anchors = [akLeft, akTop, akRight]
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
     Lines.Strings = (
       'Memo1')
+    ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 2
   end
